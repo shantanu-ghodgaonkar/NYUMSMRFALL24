@@ -1,16 +1,14 @@
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import numpy as np
-from scipy.optimize import minimize
-import sympy as sp
 from qpsolvers import solve_qp
 
 lim = 5
 REAL_NUMS = np.linspace(-lim, lim, 500)
-x = np.meshgrid(REAL_NUMS, REAL_NUMS)
 
 
 def plot_fx_hx():
+    x = np.meshgrid(REAL_NUMS, REAL_NUMS)
     f = (((x[0] - 1)**2) + ((x[1] - 1)**2))
     h1 = x[0] + x[1]
     h2 = x[1] - x[0]
@@ -89,8 +87,7 @@ def plot_fx_hx():
     plt.show()
 
 
-if __name__ == '__main__':
-    # plot_fx_hx()
+def compute_x_star():
 
     # Quadratic term matrix (P)
     P = np.array([[2, 0],
@@ -110,16 +107,11 @@ if __name__ == '__main__':
     x = solve_qp(P=P, q=q, G=G, h=h, solver="clarabel")
     print(f"QP solution: {x = }")
 
-    # Get the optimal x and y values
-    x_opt, y_opt = x[0], x[1]
-    print("Optimal solution for x:", x_opt)
-    print("Optimal solution for y:", y_opt)
-
     # Check the values of the constraints at the optimal solution
-    h1 = x_opt + y_opt - 1
-    h2 = y_opt - x_opt - 1
-    h3 = x_opt - y_opt - 1
-    h4 = -x_opt - y_opt - 1
+    h1 = round((x[0] + x[1] - 1), 5)
+    h2 = round((x[1] - x[0] - 1), 5)
+    h3 = round((x[0] - x[1] - 1), 5)
+    h4 = round((-x[0] - x[1] - 1), 5)
 
     print(f"h1(x*, y*) = {h1}")
     print(f"h2(x*, y*) = {h2}")
@@ -133,14 +125,9 @@ if __name__ == '__main__':
     mu_4 = 0 if h4 < 0 else "non-zero"
 
     print(
-        f"Estimated Lagrange multipliers: mu1={mu_1}, mu2={mu_2}, mu3={mu_3}, mu4={mu_4}")
+        f"Estimated Lagrange multipliers: mu1 = {mu_1}, mu2 = {mu_2}, mu3 = {mu_3}, mu4 = {mu_4}")
 
-    # Use stationarity to solve for the non-zero mu values
-    if mu_1 != 0 or mu_3 != 0 or mu_2 != 0 or mu_4 != 0:
-        # Stationarity equations
-        eq1 = 2 * (x_opt - 1) + (mu_1 if mu_1 != 0 else 0) + (mu_3 if mu_3 !=
-                                                              0 else 0) - (mu_2 if mu_2 != 0 else 0) - (mu_4 if mu_4 != 0 else 0)
-        eq2 = 2 * (y_opt - 1) + (mu_1 if mu_1 != 0 else 0) + (mu_2 if mu_2 !=
-                                                              0 else 0) - (mu_3 if mu_3 != 0 else 0) - (mu_4 if mu_4 != 0 else 0)
 
-        print(f"Stationarity equation results: eq1={eq1}, eq2={eq2}")
+if __name__ == '__main__':
+    plot_fx_hx()
+    compute_x_star()
