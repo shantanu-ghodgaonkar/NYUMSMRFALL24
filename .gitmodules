@@ -1,0 +1,3 @@
+[submodule "Reinforcement Learning and Optimal Control for Robotics (ROB-GY 6323)/optlearningcontrol"]
+	path = Reinforcement Learning and Optimal Control for Robotics (ROB-GY 6323)/optlearningcontrol
+	url = https://github.com/righetti/optlearningcontrol.git
