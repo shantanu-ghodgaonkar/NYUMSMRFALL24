@@ -25,6 +25,10 @@ K = np.array([
 #     [0,	0,	1]
 # ])
 
+# Camera distortion coefficients generated through OpenCV Code
+DIST = np.array([-0.21914991,  0.19218259,
+                0.01419519,  0.02305682, -0.07298546])
+
 # Define the marker length in meters (adjust based on your actual marker size)
 MARKER_LENGTH = 0.1  # 100 mm
 
@@ -83,7 +87,7 @@ def initialize_aruco_detector():
     return detector, aruco_dict
 
 
-def estimate_pose(corners, marker_length, camera_matrix):
+def estimate_pose(corners, marker_length, camera_matrix, dist_coeff):
     """
     Estimate the pose (rotation and translation vectors) of detected ArUco markers.
 
@@ -103,12 +107,12 @@ def estimate_pose(corners, marker_length, camera_matrix):
         corners=corners,
         markerLength=marker_length,
         cameraMatrix=camera_matrix,
-        distCoeffs=np.zeros((4, 1))  # Zero distortion coefficients
+        distCoeffs=dist_coeff
     )
     return rvecs, tvecs
 
 
-def draw_cube(img, rvec, tvec, camera_matrix, marker_length):
+def draw_cube(img, rvec, tvec, camera_matrix, marker_length, dist_coeff):
     """
     Draw a 3D cube on the detected ArUco marker within the image.
 
@@ -118,6 +122,7 @@ def draw_cube(img, rvec, tvec, camera_matrix, marker_length):
         tvec (numpy.ndarray): Translation vector of the marker.
         camera_matrix (numpy.ndarray): Camera intrinsic matrix.
         marker_length (float): The actual length of the marker's side (in meters).
+        dist_coeff (numpy.ndarray): Camera lens distortion coefficients
 
     Returns:
         numpy.ndarray: The image with the 3D cube drawn on the marker.
@@ -139,11 +144,11 @@ def draw_cube(img, rvec, tvec, camera_matrix, marker_length):
 
     # Project the 3D cube points to the 2D image plane
     imgpts, _ = cv2.projectPoints(
-        cube_points,
-        rvec,
-        tvec,
-        camera_matrix,
-        None  # Assuming no lens distortion
+        objectPoints=cube_points,
+        rvec=rvec,
+        tvec=tvec,
+        cameraMatrix=camera_matrix,
+        distCoeffs=dist_coeff
     )
     imgpts = np.int32(imgpts).reshape(-1, 2)  # Convert to integer coordinates
 
@@ -199,7 +204,8 @@ def main():
             rvecs, tvecs = estimate_pose(
                 corners=corners,
                 marker_length=MARKER_LENGTH,
-                camera_matrix=K
+                camera_matrix=K,
+                dist_coeff=DIST
             )
 
             # Iterate through each detected marker to draw annotations
@@ -217,7 +223,8 @@ def main():
                     rvec=rvecs[i],
                     tvec=tvecs[i],
                     camera_matrix=K,
-                    marker_length=MARKER_LENGTH
+                    marker_length=MARKER_LENGTH,
+                    dist_coeff=DIST
                 )
         else:
             print("No markers detected.")

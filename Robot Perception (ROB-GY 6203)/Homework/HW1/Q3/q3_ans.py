@@ -5,7 +5,7 @@ from pathlib import Path
 from time import time, sleep
 
 # Constants
-K = 'k2'  # 'k1' for images within 1m and 'k2' for images within 2m and 3m distance
+K = 'k1'  # 'k1' for images within 1m and 'k2' for images within 2m and 3m distance
 CAM_PORT = 2  # Camera port index
 FOLDER_PATH = Path(f"./Q3/img_{K}")  # Path to save captured images
 
@@ -230,6 +230,7 @@ def main():
 
     print(f"Total mean re-projection error: {mean_error}")
     print(f"Camera Matrix ({K}):\n{mtx}")
+    print(f"Distortion Coefficients = {dist} ")
 
 
 if __name__ == "__main__":
