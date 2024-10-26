@@ -1,3 +1,6 @@
 [submodule "Reinforcement Learning and Optimal Control for Robotics (ROB-GY 6323)/optlearningcontrol"]
 	path = Reinforcement Learning and Optimal Control for Robotics (ROB-GY 6323)/optlearningcontrol
 	url = https://github.com/righetti/optlearningcontrol.git
+[submodule "Robot Perception (ROB-GY 6203)/ComputerVision"]
+	path = Robot Perception (ROB-GY 6203)/ComputerVision
+	url = https://github.com/niconielsen32/ComputerVision.git
