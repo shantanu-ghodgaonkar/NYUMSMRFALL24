@@ -4,3 +4,6 @@
 [submodule "Robot Perception (ROB-GY 6203)/ComputerVision"]
 	path = Robot Perception (ROB-GY 6203)/ComputerVision
 	url = https://github.com/niconielsen32/ComputerVision.git
+[submodule "Robot Perception (ROB-GY 6203)/reinforcement-learning-implementation"]
+	path = Robot Perception (ROB-GY 6203)/reinforcement-learning-implementation
+	url = https://github.com/MJeremy2017/reinforcement-learning-implementation.git
