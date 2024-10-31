@@ -1,0 +1,6 @@
+numpy
+scipy
+jupyter
+ipympl
+matplotlib
+qpsolvers[open_source_solvers]
