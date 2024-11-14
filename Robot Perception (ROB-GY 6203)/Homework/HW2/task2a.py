@@ -105,7 +105,7 @@ class ICP:
                 if error_i >= error:
                     pbar.set_description(
                         f"ICP Progress - Error: {error_i:.6f}")
-                    break
+                    pass
 
                 # Apply the transformation only if error decreased
                 self.src_pts = transformed_src_pts
@@ -125,7 +125,7 @@ class ICP:
 
         # Save the final transformation matrix to file
         np.save(
-            f"task2_transformations/transformation_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{i}_{tol}.npy", transformation)
+            f"task2a_transformations/transformation_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{i}_{tol}.npy", transformation)
         return transformation
 
 
@@ -153,6 +153,8 @@ def main():
     """
     Main function to execute the ICP algorithm and visualize the results.
     """
+    draw_registration_result(source=source, target=target,
+                             transformation=np.eye(4))
     icp_object = ICP(src_pts=np.asarray(source.points),
                      tgt_pts=np.asarray(target.points))
     draw_registration_result(source=source, target=target,
