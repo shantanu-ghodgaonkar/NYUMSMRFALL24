@@ -213,11 +213,12 @@ def estimate_F_mtx(
     for common_id in common_ids:
         idx_left = np.where(ids_left == common_id)[0][0]
         idx_right = np.where(ids_right == common_id)[0][0]
-        # Use the center of the marker for correspondence
-        center_left = np.mean(corners_left[idx_left][0], axis=0)
-        center_right = np.mean(corners_right[idx_right][0], axis=0)
-        points_left.append(center_left)
-        points_right.append(center_right)
+        # Use the corners of the marker for correspondence
+        corners_marker_left = corners_left[idx_left][0]
+        corners_marker_right = corners_right[idx_right][0]
+        for corner_l, corner_r in zip(corners_marker_left, corners_marker_right):
+            points_left.append(corner_l)
+            points_right.append(corner_r)
 
     points_left = np.array(points_left)
     points_right = np.array(points_right)
@@ -237,12 +238,12 @@ def estimate_F_mtx(
             """ Draw epipolar lines on the images """
             r, c, _ = img1.shape
             for r_line, pt1, pt2 in zip(lines, pts1, pts2):
-                color = tuple(np.random.randint(0, 255, 3).tolist())
+                color = (0, 255, 0)
                 x0, y0 = map(int, [0, -r_line[2]/r_line[1]])
                 x1, y1 = map(int, [c, -(r_line[2] + r_line[0]*c)/r_line[1]])
-                img1 = cv.line(img1, (x0, y0), (x1, y1), color, 1)
-                img1 = cv.circle(img1, tuple(pt1.astype(int)), 5, color, -1)
-                img2 = cv.circle(img2, tuple(pt2.astype(int)), 5, color, -1)
+                img1 = cv.line(img1, (x0, y0), (x1, y1), color, 2)
+                img1 = cv.circle(img1, tuple(pt1.astype(int)), 5, color, -2)
+                img2 = cv.circle(img2, tuple(pt2.astype(int)), 5, color, -2)
             return img1, img2
 
         # Select inlier points
@@ -262,6 +263,10 @@ def estimate_F_mtx(
         lines2 = lines2.reshape(-1, 3)
         img3, img4 = draw_epipolar_lines(
             img_right.copy(), img_left.copy(), lines2, inlier_pts2, inlier_pts1)
+
+        # Save the images with epipolar lines
+        cv.imwrite('Task3/Left_Image_Epilines.jpg', img5)
+        cv.imwrite('Task3/Right_Image_Epilines.jpg', img3)
 
         # Display the images with epipolar lines
         cv.imshow('Left Image Epilines', img5)
@@ -430,7 +435,7 @@ def main():
 
         # Load and compute correspondences
         F, pts1, pts2 = estimate_F_mtx(
-            verbose=True, display_epipolar_lines=False)
+            verbose=True, display_epipolar_lines=True)
 
         # Validate Fundamental Matrix
         validate_F_matrix(F, pts1, pts2)
