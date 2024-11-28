@@ -1,0 +1,11 @@
+26-Nov-24 23:32:40 - INFO: player.py is using vis_nav_game 1.2.1
+26-Nov-24 23:32:40 - INFO: vis_nav_game.core version=1.2.1
+26-Nov-24 23:32:40 - INFO: init from /home/shantanu/Documents/Academics/NYUMSMRFALL24/Robot Perception (ROB-GY 6203)/Midterm-project/startup.json: {'ESSENTIAL_FILE_ID': '1CvIOxnKO8Z8NDBh-kKOpUuWEgPinLLSV', 'MAZE_FILE_ID': '1gF7HiL6dMFuTNBi87mvXrShrA93df-RK', 'MAZE_FILE_MD5_KEY': 'ee5b9a353f2c713e8f00333669a06fd0'}
+26-Nov-24 23:32:40 - INFO: Pass checking essential files
+26-Nov-24 23:32:40 - INFO: Verified /home/shantanu/Documents/Academics/NYUMSMRFALL24/Robot Perception (ROB-GY 6203)/Midterm-project/data/maze.json
+26-Nov-24 23:32:40 - INFO: Start loading the map
+26-Nov-24 23:32:40 - INFO: Init rules from {'NAV_START_TIME': 1727755200.0, 'NOISY_MOTION': 1}
+26-Nov-24 23:32:40 - INFO: NAV_START_TIME set to 2024/10/01 00:00:00
+26-Nov-24 23:32:40 - INFO: System time=1732681960.541659, Internet time=1732681960.5992346, diff=0.05757546424865723
+26-Nov-24 23:32:40 - INFO: NOISY_MOTION set to 1
+26-Nov-24 23:32:40 - INFO: Loaded rules for competition!
